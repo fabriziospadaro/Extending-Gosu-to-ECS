@@ -1,6 +1,6 @@
 require_relative 'behaviour'
 
-class TestBH < Behaviour
+class Scripting < Behaviour
 
   def initialize()
     super
@@ -11,8 +11,7 @@ class TestBH < Behaviour
   end
 
   def update
-    puts "Object updating"
-    gameobject.position += Vector2D.right
-    gameobject.angle += 1
+    puts "Object updating 2 "
+    gameobject.position -= Vector2D.up
   end
 end

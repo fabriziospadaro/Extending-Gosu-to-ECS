@@ -1,11 +1,8 @@
-class Behaviour
-  attr_accessor :gameobject
+require_relative "component"
+class Behaviour < Component
   def initialize()
-    @gameobject = nil
+    super
     start
-  end
-  def SetOwner(go)
-    @gameobject = go
   end
   #called at the start of the initialaiaztion
   def start
