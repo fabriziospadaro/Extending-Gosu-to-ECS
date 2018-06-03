@@ -1,10 +1,7 @@
-require_relative 'belva2d'
-
 class GameObject
+  @@game_reference
   attr_accessor :position, :scale, :angle, :components, :name
   attr_reader :enabled
-
-  @@game_reference
 
   def initialize(name, position = Vector2D.zero, scale = Vector2D.zero,angle = 0, components = nil)
     #transform of the object
@@ -15,7 +12,6 @@ class GameObject
     @name = name
 
     @components = []
-
     @enabled = true
 
     AddComponent(components) if (components != nil)
@@ -26,37 +22,31 @@ class GameObject
     if(new_component.class.superclass.to_s == "Behaviour")
       #controlla se non esistono behavuoir se non esistono crea la hash
       #se esiste aggiungi dentro l'array value dell hash con chiave behaviour il component
-      id = 0
-      @components.each do |cmp_hash|
+      @components.each_with_index do |cmp_hash,i|
         if(cmp_hash.keys[0] == :Behaviour)
-          @components[id][:Behaviour] << new_component
-          return self
+          @components[i][:Behaviour] << new_component
+          return new_component
         else
           @components << {Behaviour: [new_component]}
-          return self
+          return new_component
         end
-        id += 1
       end
       @components << {Behaviour: [new_component]}
     else
-      case new_component.class.to_s
-        when "Sprite"
-          @components << {Sprite: new_component}
-        when "Sound"
-          @components << {Sound: new_component}
-      end
+      @components << {new_component.class.to_s.to_sym => new_component}
     end
     return self
   end
 
   def GetComponent(symbol)
+    #decidi se quando  chiami get component ritorna solo se sono attivati
     @components.each do |cmp_hash|
       if(symbol != :Behaviour && cmp_hash.keys[0] != :Behaviour)
         return cmp_hash.values[0] if cmp_hash.keys[0] == symbol
       else
         if(cmp_hash.keys[0] == symbol)
           return cmp_hash.values[0]
-        else
+        elsif cmp_hash.values[0].class == Array
           cmp_hash.values[0].each { |component| return component if component.class.to_s == symbol.to_s}
         end
       end
@@ -112,6 +102,10 @@ class GameObject
       return obj if obj.name == name
     end
     return false
+  end
+
+  def self.GetGameReference
+    @@game_reference
   end
 
   def self.SetGameReference(ref)

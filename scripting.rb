@@ -11,7 +11,17 @@ class Scripting < Behaviour
   end
 
   def update
-    puts "Object updating 2 "
-    gameobject.position -= Vector2D.up
+    if Gosu.button_down? Gosu::KB_D
+       gameobject.position += Vector2D.right
+    end
+    if Gosu.button_down? Gosu::KB_A
+       gameobject.position -= Vector2D.right
+    end
+    if Gosu.button_down? Gosu::KB_W
+       gameobject.GetComponent(:Camera).size += 0.01
+    end
+    if Gosu.button_down? Gosu::KB_S
+       gameobject.GetComponent(:Camera).size -= 0.01
+    end
   end
 end

@@ -57,11 +57,14 @@ class Vector2D
   end
 
   def self.up
-    return Vector2D.new(0,1)
+    return Vector2D.new(0,-1)
   end
 
   def self.random
     return Vector2D.new(rand(0.01..1),rand(0.01..1))
   end
 
+  def self.Learp(a,b,time)
+    return a + time * (b - a);
+  end
 end

@@ -11,8 +11,6 @@ class TestBH < Behaviour
   end
 
   def update
-    puts "Object updating"
-    gameobject.position += Vector2D.right
-    gameobject.angle += 1
+    gameobject.position += Vector2D.right/2.to_f
   end
 end

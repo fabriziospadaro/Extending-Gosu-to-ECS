@@ -1,5 +1,3 @@
-require_relative 'belva2d'
-
 class Component
   attr_reader :gameobject,:unique_id
   attr_accessor :enable
