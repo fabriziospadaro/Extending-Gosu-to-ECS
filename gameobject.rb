@@ -1,9 +1,9 @@
 class GameObject
-  @@game_reference
+
   attr_accessor :position, :scale, :angle, :components, :name
   attr_reader :enabled
 
-  def initialize(name, position = Vector2D.zero, scale = Vector2D.zero,angle = 0, components = nil)
+  def initialize(name, position = Vector2D.zero, scale = Vector2D.one,angle = 0, components = nil)
     #transform of the object
     @position = position
     @scale = scale
@@ -35,7 +35,7 @@ class GameObject
     else
       @components << {new_component.class.to_s.to_sym => new_component}
     end
-    return self
+    return new_component
   end
 
   def GetComponent(symbol)
@@ -74,45 +74,33 @@ class GameObject
     return if flag == self
 
     if(!flag)
-      @@game_reference.Disable(self)
+      Belva2D.Disable(self)
     else
-      @@game_reference.enabled(self)
+      Belva2D.enabled(self)
     end
     @enabled = flag
     return self
   end
 
   def self.FindObjectOfType(component)
-    @@game_reference.ActiveObjectPool.each do |obj|
-      return obj.GetComponent(component).gameobject if obj.GetComponent(component) != false
+    Belva2D.ActiveObjectPool.each do |obj|
+      return obj.GetComponent(component) if obj.GetComponent(component) != false
     end
     return false
   end
 
   def self.FindObjectsOfType(component)
     obj_list = []
-    @@game_reference.ActiveObjectPool.each do |obj|
-      obj_list << obj.GetComponent(component).gameobject if obj.GetComponent(component) != false
+    Belva2D.ActiveObjectPool.each do |obj|
+      obj_list << obj.GetComponent(component) if obj.GetComponent(component) != false
     end
     return obj_list.size > 0 ? obj_list : false
   end
 
   def self.Find(name)
-    @@game_reference.ActiveObjectPool.each do |obj|
+    Belva2D.ActiveObjectPool.each do |obj|
       return obj if obj.name == name
     end
     return false
-  end
-
-  def self.GetGameReference
-    @@game_reference
-  end
-
-  def self.SetGameReference(ref)
-    @@game_reference = ref
-  end
-
-  def self.Destroy(go)
-    @@game_reference.Destroy(go)
   end
 end

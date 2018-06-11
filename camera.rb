@@ -7,7 +7,7 @@ class Camera < Component
   def initialize(size = 1)
     super()
     @size = size
-    GameObject.GetGameReference.SetCamera(self)
+    Belva2D.SetCamera(self)
   end
 
 end

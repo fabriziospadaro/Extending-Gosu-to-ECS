@@ -67,4 +67,8 @@ class Vector2D
   def self.Learp(a,b,time)
     return a + time * (b - a);
   end
+
+  def self.Distance(a,b)
+    return Math.sqrt((a.x - b.x)**2 + (a.y - b.y)**2 )
+  end
 end
