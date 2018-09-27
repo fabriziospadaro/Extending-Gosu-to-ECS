@@ -5,10 +5,11 @@ require_relative 'sprite'
 require_relative 'behaviour'
 require_relative 'component.rb'
 require_relative 'camera'
-require_relative 'playercamera.rb'
-require_relative 'playercontroller'
-require_relative 'followcamera'
-require_relative 'worldgenerator'
+require_relative 'frame_time'
+#put there additionl component
+
+require_relative 'test_behaviour.rb'
+
 require 'pry'
 
 #aggiungere il camera component che n pratica crea un offsett delle posizioni di tutti gli oggetti
@@ -17,13 +18,18 @@ require 'pry'
 class Belva2D < Gosu::Window
   @@game_reference
   attr_accessor :camera, :active_object_list, :deactive_object_list
+  attr_reader :game_reference
   def initialize(width,height,app_name)
     super width, height
+    @width = width
+    @height = height
+
     self.caption = app_name
     @active_object_list = []
     @deactive_object_list = []
     @camera = nil
     @@game_reference = self
+    @time = FrameTime.new()
     return self
   end
 
@@ -32,6 +38,8 @@ class Belva2D < Gosu::Window
   end
 
   def update
+    @time.update
+
     @active_object_list.each do |object| behaviours = object.GetComponent(:Behaviour)
       behaviours.each { |behaviour| behaviour.update } if behaviours
     end
@@ -42,13 +50,12 @@ class Belva2D < Gosu::Window
         object.components.each do |component_hash|
           component = component_hash.values[0]
           component_type = component_hash.keys[0]
-
           if(component_type == :Sprite)
             cameraOffSet_position = @camera != nil ? @camera.gameobject.position : Vector2D.zero
             cameraOffSet_angle = @camera != nil ? @camera.gameobject.angle : 0
             cameraOffSet_scale = @camera != nil ? @camera.size : 1
 
-            cameraOffSet_position = object.position - cameraOffSet_position
+            cameraOffSet_position = object.position - (Vector2D.new(-@width/2,-@height/2)-cameraOffSet_position)
             cameraOffSet_angle += object.angle
 
             scale_in_pixel = ((object.scale * component.pixel_per_unit)/1000.to_f) * (cameraOffSet_scale*cameraOffSet_scale)
