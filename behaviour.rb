@@ -4,14 +4,13 @@ class Behaviour < Component
 
   def initialize()
     super
-    start()
+    @enabled = false
   end
 
-  #called after intialization
-  def start
-
-  end
-  #called once per frame
   def update
+  end
+
+  def deep_clone
+    return self.class.new
   end
 end

@@ -7,7 +7,7 @@ class FrameTime
 
   def update
     @this = Gosu::milliseconds
-    @delta = (@this - @last) / 1000.0
+    @delta = (@this - @last) / 100.0
     @last = @this
   end
 

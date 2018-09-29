@@ -1,5 +1,4 @@
 require_relative 'component'
-require_relative 'gameobject'
 
 class Camera < Component
   #rendering layer? per filtrare solo determinati oggetti?
@@ -8,6 +7,11 @@ class Camera < Component
     super()
     @size = size
     Belva2D.SetCamera(self)
+  end
+
+  def deep_clone
+    super()
+    return Camera.new(self.size)
   end
 
 end

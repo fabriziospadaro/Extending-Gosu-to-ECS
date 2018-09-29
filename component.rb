@@ -9,5 +9,4 @@ class Component
   def SetOwner(go)
     @gameobject = go
   end
-
 end

@@ -60,12 +60,16 @@ class Vector2D
     return Vector2D.new(0,-1)
   end
 
+  def dot(f)
+    return Vector2D.new(@x*f,@y*f)
+  end
+
   def self.random
-    return Vector2D.new(rand(0.01..1),rand(0.01..1))
+    return Vector2D.new(rand(0.to_f..1),rand(0.to_f..1))
   end
 
   def self.Learp(a,b,time)
-    return a + time * (b - a);
+    return a +((b - a).dot(time));
   end
 
   def self.Distance(a,b)

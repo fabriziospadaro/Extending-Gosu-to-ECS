@@ -1,20 +1,37 @@
 class GameObject
 
-  attr_accessor :position, :scale, :angle, :components, :name
+  attr_accessor :position, :scale, :angle, :components, :name, :tag
   attr_reader :enabled
 
-  def initialize(name, position = Vector2D.zero, scale = Vector2D.one,angle = 0, components = nil)
+  def deep_clone
+    new_obj = GameObject.new(self.name,self.position,self.scale,self.tag,self.angle)
+    self.components.each do |component_hash|
+      if (component_hash.keys[0] != :Behaviour)
+        new_obj.AddComponent(component_hash.values[0].dup.deep_clone)
+      else
+        upper_bound2 = component_hash.values[0].size
+        upper_bound2 = 2 if (component_hash.values[0].size == 1)
+        for b in 0...upper_bound2
+          if(component_hash.values[0][b] != nil)
+            new_obj.AddComponent(component_hash.values[0][b].dup.deep_clone)
+          end
+        end
+      end
+    end
+    return new_obj
+  end
+
+
+  def initialize(name, position = Vector2D.zero, scale = Vector2D.one,tag = "default" ,angle = 0)
     #transform of the object
     @position = position
     @scale = scale
     @angle = angle
-
+    @tag = tag
     @name = name
 
     @components = []
     @enabled = true
-
-    AddComponent(components) if (components != nil)
   end
 
   def AddComponent(new_component)
@@ -71,7 +88,7 @@ class GameObject
   end
 
   def SetActive(flag)
-    return if flag == self
+    return self if flag == self
 
     if(!flag)
       Belva2D.Disable(self)
@@ -79,6 +96,11 @@ class GameObject
       Belva2D.enabled(self)
     end
     @enabled = flag
+    return self
+  end
+
+  def SetTag(tag)
+    @tag = tag
     return self
   end
 
@@ -93,6 +115,14 @@ class GameObject
     obj_list = []
     Belva2D.ActiveObjectPool.each do |obj|
       obj_list << obj.GetComponent(component) if obj.GetComponent(component) != false
+    end
+    return obj_list.size > 0 ? obj_list : false
+  end
+
+  def self.FindObjectsOfTag(tag)
+    obj_list = []
+    Belva2D.ActiveObjectPool.each do |obj|
+      obj_list << obj if obj.tag == tag
     end
     return obj_list.size > 0 ? obj_list : false
   end

@@ -1,4 +1,4 @@
-class Input
+module Input
   def self.key_down?(key_code)
     return Belva2D.Reference.button_down?(key_code)
   end

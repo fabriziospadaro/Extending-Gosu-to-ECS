@@ -4,6 +4,18 @@ require_relative 'belva2d'
 game = Belva2D.new(640,480,"First Game")
 #-------------------------------------------------------
 #put game logic there
+go_list = []
+snake = GameObject.new("Platform", Vector2D.zero)
+snake.AddComponent(Sprite.new("ball.png"))
+snake.AddComponent(PlatformController.new())
+go_list << snake
+
+
+gameplay = GameObject.new("GamePlay")
+gameplay.AddComponent(GamePlay.new())
+go_list << gameplay
+
+Belva2D.Instantiate(go_list)
 
 #end the game logic
 #--------------------------------------------------------
