@@ -9,4 +9,11 @@ class Component
   def SetOwner(go)
     @gameobject = go
   end
+  def destroy(obj)
+    if(obj.class == self.class)
+      @gameobject.components.delete!(obj)
+    else  
+      Belva2D.destroy(@gameobject)
+    end
+  end
 end

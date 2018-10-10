@@ -75,4 +75,23 @@ class Vector2D
   def self.Distance(a,b)
     return Math.sqrt((a.x - b.x)**2 + (a.y - b.y)**2 )
   end
+
+  def magnitude
+    return Math.sqrt((self.x ** 2) + (self.y ** 2))
+  end
+
+  def normalized
+    length = magnitude
+    return self/length
+  end
+
+  def Normalize!
+    normalized_vector = normalize
+    @x = normalized_vector.x
+    @y = normalized_vector.y
+  end
+
+  def DotProduct(a,b)
+    return (self.x * b.x) + (self.y * b.y)
+  end
 end

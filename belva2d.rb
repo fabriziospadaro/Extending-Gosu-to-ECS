@@ -9,10 +9,7 @@ require_relative 'frame_time'
 require_relative 'color'
 require_relative 'screen'
 #put there additionl component
-
-require_relative 'snake_behaviour.rb'
-require_relative 'game_play.rb'
-require_relative 'body_part.rb'
+require_relative 'platform_controller.rb'
 require 'pry'
 
 #fixare il fatto che i component devono essere dumpati prima di essere instanziati con un go
@@ -110,7 +107,11 @@ class Belva2D < Gosu::Window
     end
 
     def self.Destroy(go)
-      @@game_reference.deactive_object_list.delete(go)
+      if(@@game_reference.active_object_list.include?(go))        
+        @@game_reference.active_object_list.delete(go)
+      else
+        @@game_reference.deactive_object_list.delete(go)
+      end
     end
 
     def self.Disable(go)

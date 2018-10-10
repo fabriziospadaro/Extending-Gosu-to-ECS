@@ -11,10 +11,6 @@ snake.AddComponent(PlatformController.new())
 go_list << snake
 
 
-gameplay = GameObject.new("GamePlay")
-gameplay.AddComponent(GamePlay.new())
-go_list << gameplay
-
 Belva2D.Instantiate(go_list)
 
 #end the game logic

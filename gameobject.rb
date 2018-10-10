@@ -71,22 +71,6 @@ class GameObject
     return false
   end
 
-  def RemoveComponent(instance)
-    @components.each_with_index do |cmp_hash,index|
-      if(cmp_hash.keys[0] == :Behaviour)
-        cmp_hash.values[0].each do |component|
-          if(component == instance)
-            @components[index][:Behaviour].delete(component)
-            return self
-          end
-        end
-      elsif(cmp_hash.values[0] == instance)
-        @components.delete_at(index)
-        return self
-      end
-    end
-  end
-
   def SetActive(flag)
     return self if flag == self
 
