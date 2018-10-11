@@ -1,5 +1,6 @@
-require_relative "component"
+require_relative 'component'
 require_relative 'input'
+
 class Behaviour < Component
 
   def initialize()
@@ -7,7 +8,9 @@ class Behaviour < Component
     @enabled = false
   end
 
+  ##called once per frame
   def update
+  
   end
 
   def deep_clone

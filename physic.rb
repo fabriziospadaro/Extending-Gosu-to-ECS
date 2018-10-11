@@ -6,6 +6,7 @@ module Physic
   class BaseCollider < Component
     attr_accessor :scale
     attr_reader :vertices
+    
     def intialize(scale)
       super()
       @scale = scale
@@ -13,7 +14,7 @@ module Physic
     end
 
     def set_vertices
-      raise NotImplemented
+      raise "Not Implemented"
     end
 
     def space_vertices
@@ -36,7 +37,7 @@ module Physic
           vertex = collider.vertices[i - vertex_count_A]
         end
         axis = Vector2.new(-vertex.y, vertex.x)
-        axis.Normalize!();
+        axis.Normalize!
 
         minA = minB = maxA = maxB = 0
 
@@ -47,8 +48,8 @@ module Physic
             return false
         end
       end
-
       return true
+
     end
 
     def project_polygon(axis, polygon, min, max)
@@ -74,12 +75,15 @@ module Physic
       end
     end
 
+  end
+
   class BoxCollider < BaseCollider
 
-    def initialize(width,height,scale)
+    def initialize(width,height,scale = 1)
       super(scale)
       @width = width
       @height = height
+      set_vertices()
     end
 
     def set_vertices()
@@ -95,17 +99,17 @@ module Physic
 
   class CircleCollider < BaseCollider
 
-    def initialize(origin, radius)#only c2c
+    def initialize(radius = 1,scale = 1)#only c2c
       super(scale)
       @radius = radius
-      @origin = origin
+      set_vertices()
     end
 
     def set_vertices()
-      step = 2
+      step = 3
       
       for angle in 0..360
-        @vertices << Vector2.new(Math.cos(angle),Math.sin(angle)) 
+        @vertices << Vector2.new(Math.cos(angle),Math.sin(angle))*@radius 
         angle += step
       end
       @vertices.freeze
