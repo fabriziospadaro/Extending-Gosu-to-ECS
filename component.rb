@@ -4,20 +4,22 @@ class Component
 
   def initialize()
     @gameobject = nil
+    @transform = nil
     @enable = true
     @unique_id = self.object_id
   end
   
   def SetOwner(go)
     @gameobject = go
+    @transform = go.transform
   end
   
-  def destroy(obj)
-    if(obj.class == self.class)
-      @gameobject.components.delete!(obj)
-    else  
-      Belva2D.destroy(@gameobject)
-    end
+  def destroy!()
+    @gameobject.DeleteComponent(self)
+  end
+
+  def ==(b)
+    return @unique_id == b&.unique_id
   end
 
 end

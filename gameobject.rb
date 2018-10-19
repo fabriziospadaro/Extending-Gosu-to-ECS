@@ -1,10 +1,10 @@
 class GameObject
 
-  attr_accessor :position, :scale, :angle, :components, :name, :tag
-  attr_reader :enabled
+  attr_accessor :components, :name, :tag
+  attr_reader :enabled,:transform
 
   def deep_clone
-    new_obj = GameObject.new(self.name,self.position,self.scale,self.tag,self.angle)
+    new_obj = GameObject.new(name: self.name,position: @transform.position,scale: @transform.scale,tag: @tag,angle: @transform.angle)
     self.components.each do |component_hash|
       if (component_hash.keys[0] != :Behaviour)
         new_obj.AddComponent(component_hash.values[0].dup.deep_clone)
@@ -22,14 +22,12 @@ class GameObject
   end
 
 
-  def initialize(name, position = Vector2D.zero, scale = Vector2D.one,tag = "default" ,angle = 0)
+  def initialize(args)
     #transform of the object
-    @position = position
-    @scale = scale
-    @angle = angle
-    @tag = tag
-    @name = name
-
+    args[:gameobject] = self
+    @transform = Transform.new(args)
+    @name = args[:name]
+    @tag = args[:tag]
     @components = []
     @enabled = true
   end
@@ -55,8 +53,25 @@ class GameObject
     return new_component
   end
 
+  #fix this ...
+  def DeleteComponent(component)
+     @components.each_with_index do |cmp_hash,i|
+      cmp_hash.values.each do |value|
+        if(!value.is_a? Array)
+          @components.delete_at(i) if(value == component)
+        else
+          value.each_with_index do |v,h|
+            if(v == component)
+              @components[i].values[0].delete_at(h)
+              @components.delete_at(i) if @components[i].values[0].empty?
+            end
+          end
+        end
+      end
+     end
+  end
+
   def GetComponent(symbol)
-    #decidi se quando  chiami get component ritorna solo se sono attivati
     @components.each do |cmp_hash|
       if(symbol != :Behaviour && cmp_hash.keys[0] != :Behaviour)
         return cmp_hash.values[0] if cmp_hash.keys[0] == symbol

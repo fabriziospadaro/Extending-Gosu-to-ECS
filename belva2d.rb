@@ -8,12 +8,13 @@ require_relative 'camera'
 require_relative 'frame_time'
 require_relative 'color'
 require_relative 'screen'
+require_relative 'transform'
 #put there additionl component
 require_relative 'platform_controller.rb'
 require 'pry'
 
 #fixare il fatto che i component devono essere dumpati prima di essere instanziati con un go
-
+#dubbio ARDUO.... CREARE UN'OGGETTO OGNI VOLTA CHE VIENE FATTO GAMEOBJECT.NEW? E SE POI SI VUOLE ISTANZIARE UNA COPIA DI QUEL GO BISOGNA UASRE ISTANZIATE?
 class Belva2D < Gosu::Window
   @@game_reference
   attr_accessor :camera, :active_object_list, :deactive_object_list
@@ -52,14 +53,14 @@ class Belva2D < Gosu::Window
         component = component_hash.values[0]
         component_type = component_hash.keys[0]
         if(component_type == :Sprite)
-          cameraOffSet_position = @camera != nil ? @camera.gameobject.position : Vector2D.zero
-          cameraOffSet_angle = @camera != nil ? @camera.gameobject.angle : 0
+          cameraOffSet_position = @camera != nil ? @camera.transform.position : Vector2D.zero
+          cameraOffSet_angle = @camera != nil ? @camera.transform.angle : 0
           cameraOffSet_scale = @camera != nil ? @camera.size : 1
 
-          cameraOffSet_position = object.position - (Vector2D.new(-@width/2,-@height/2)-cameraOffSet_position)
-          cameraOffSet_angle += object.angle
+          cameraOffSet_position = object.transform.position - (Vector2D.new(-@width/2,-@height/2)-cameraOffSet_position)
+          cameraOffSet_angle += object.transform.angle
 
-          scale_in_pixel = ((object.scale * component.pixel_per_unit)/1000.to_f) * (cameraOffSet_scale*cameraOffSet_scale)
+          scale_in_pixel = ((object.transform.scale * component.pixel_per_unit)/1000.to_f) * (cameraOffSet_scale*cameraOffSet_scale)
           component.sprite.draw_rot(cameraOffSet_position.x,cameraOffSet_position.y,component.layer,cameraOffSet_angle,0.5,0.5,scale_in_pixel.x,scale_in_pixel.y,component.color)
         end
       end

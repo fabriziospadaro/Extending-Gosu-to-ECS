@@ -20,7 +20,7 @@ module Physic
     def space_vertices
       return @vertices.map do |vertex|
         vertex *= scale
-        vertex += @gameobject.position  
+        vertex += @gameobject.transform.position  
       end
     end
 
