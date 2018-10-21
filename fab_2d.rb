@@ -17,9 +17,7 @@ require_relative "sprite_render_system"
 #put there additionl component
 require 'pry'
 
-#fixare il fatto che i component devono essere dumpati prima di essere instanziati con un go
-#dubbio ARDUO.... CREARE UN'OGGETTO OGNI VOLTA CHE VIENE FATTO GAMEOBJECT.NEW? E SE POI SI VUOLE ISTANZIARE UNA COPIA DI QUEL GO BISOGNA UASRE ISTANZIATE?
-class Belva2D < Gosu::Window
+class Fab2D < Gosu::Window
   @@game_reference
   attr_reader :ecs_manager
   def initialize(width,height,app_name)
