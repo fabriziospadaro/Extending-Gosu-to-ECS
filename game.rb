@@ -3,17 +3,14 @@ require_relative 'belva2d'
 #define the game
 game = Belva2D.new(640,480,"First Game")
 #-------------------------------------------------------
-#put game logic there
-go_list = []
-snake = GameObject.new(name: "Platform")
-snake.AddComponent(Sprite.new("ball.png"))
-snake.AddComponent(PlatformController.new())
-#a.destroy!
-go_list << snake
 
+player = Entity.new()
 
-Belva2D.Instantiate(go_list)
+player.add_component(TransformComponent).set(position: Point::Data.new(0,0))
+player.add_component(SpriteComponent).set(path: "Penguin.png",layer: 1).load_sprite
+player.add_system(SpriteRenderSystem)
 
+Belva2D.ecs.add_entity(player)
 #end the game logic
 #--------------------------------------------------------
 game.show
