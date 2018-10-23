@@ -13,13 +13,14 @@ require_relative "system"
 require_relative "sprite_component"
 require_relative "transform_component"
 require_relative "sprite_render_system"
-
+require_relative "controller_system"
+require_relative "input"
 #put there additionl component
 require 'pry'
 
 class Fab2D < Gosu::Window
   @@game_reference
-  attr_reader :ecs_manager
+  attr_reader :ecs_manager, :width, :height
   def initialize(width,height,app_name)
     super width, height
     @width = width
@@ -33,7 +34,7 @@ class Fab2D < Gosu::Window
     return self
   end
 
-  def instance
+  def self.instance
     return @@game_reference 
   end
 
@@ -42,6 +43,7 @@ class Fab2D < Gosu::Window
   end
 
   def update
+    @time.update
     @ecs_manager.update
   end
 

@@ -1,8 +1,11 @@
 module Screen
+
   def self.width
-    return Belva2D.Reference.width
+    return Fab2D.instance.width
   end
+
   def self.height
-    return Belva2D.Reference.height
+    return Fab2D.instance.height
   end
+  
 end

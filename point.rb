@@ -40,7 +40,7 @@ module Point
       return self/length
     end
 
-    def Normalize!
+    def normalize!
       normalized_vector = normalize
       @x = normalized_vector.x
       @y = normalized_vector.y
@@ -68,7 +68,7 @@ module Point
   end
 
   def self.random
-    return Point::Data.new(rand(0.to_f..1),rand(0.to_f..1))
+    return Point::Data.new(rand(-1.to_f..1),rand(-1.to_f..1)).normalized
   end
 
   def self.Learp(a,b,time)

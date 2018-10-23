@@ -4,14 +4,16 @@ require_relative 'fab_2d'
 game = Fab2D.new(640,480,"First Game")
 #-------------------------------------------------------
 
-player = Entity.new()
+player = Entity.configure do |entity|
+	entity.add_component(TransformComponent, {position: Point::Data.new(0,0)})
+	entity.add_component(SpriteComponent, {path: "ball.png",layer: 1})
+	entity.add_system(SpriteRenderSystem)
+	entity.add_system(ControllerSystem)
+end
 
-player.add_component(TransformComponent).set(position: Point::Data.new(0,0))
-player.add_component(SpriteComponent).set(path: "ball.png",layer: 1).load_sprite
-player.add_system(SpriteRenderSystem)
-
-Fab2D.ecs.add_entity(player)
-#end the game logic
+500.times do
+	Fab2D.ecs.add_entity(player).get_system(ControllerSystem).set(direction: Point.random*4)
+end
 #--------------------------------------------------------
 game.show
 #run the game

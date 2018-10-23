@@ -6,15 +6,22 @@ class System
 	end
 
 	def start
-  	warn("Start not implemented for #{@entity}")
+  	#warn("Start not implemented for #{@entity}")
 	end
 
 	def update
-		warn("Update not implemented for #{@entity}")
+		#warn("Update not implemented for #{@entity}")
 	end
 
 	def draw
-	  warn("Draw not implemented for #{@entity}")
+	  #warn("Draw not implemented for #{@entity}")
 	end
+
+	def set(params)
+    params.each_with_index do |param|
+      instance_variable_set("@#{param[0].to_s}",param[1])
+    end
+    return self
+  end
  
 end

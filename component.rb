@@ -7,7 +7,11 @@ class Component
   end
 
   def start
-  	warn("Start not implemented for #{@entity}")
+  	#warn("Start not implemented for #{@entity}")
+  end
+
+  def solve_dependency
+
   end
 
   def set(params)
